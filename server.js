@@ -168,6 +168,17 @@
 //   console.log("Hiii Rihan are you ready for start the backend jurney")
 // })
 
+// >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
+
+// create a server using express
+
+const espress = require('express');
+const app = espress();
+
+app.get('/', function(req, res){
+  res.send("Welcome to my hotel what i can help you");
+})
 
 
-console.log("Rihan");
+app.listen(5000);
+
