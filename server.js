@@ -190,6 +190,10 @@ app.get('/idli', (req, res)=>{
 app.post('/person', (req,res)=>{
   res.send("data is saved");
 })
+
+app.post('/item', (req,res)=>{
+  res.send("data is saved");
+})
 app.listen(5000, ()=>{
   console.log("Server listening on port 5000");
 });
