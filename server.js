@@ -172,7 +172,25 @@
 
 // create a server using express
     
+// app.get('/chicken', (req, res)=>{
+//  res.send("sure sir, i would like to serve chicken ");
+// })
+
+// app.get('/idli', (req, res)=>{
+//   res.send("Sure sir, i am very happy i would love to serve south indian dish ")
+// })
+
+// app.post('/person', (req,res)=>{
+//   res.send("data is saved");
+// })
+
+// app.post('/item', (req,res)=>{
+//   res.send("data is saved");
+// })
+
+
 require ('./db');
+require ('./models/person');
 
 const espress = require('express');
 const app = espress();
@@ -181,21 +199,6 @@ app.get('/', function(req, res){
   res.send("Welcome to my hotel what i can help you");
 })
 
-app.get('/chicken', (req, res)=>{
- res.send("sure sir, i would like to serve chicken ");
-})
-
-app.get('/idli', (req, res)=>{
-  res.send("Sure sir, i am very happy i would love to serve south indian dish ")
-})
-
-app.post('/person', (req,res)=>{
-  res.send("data is saved");
-})
-
-app.post('/item', (req,res)=>{
-  res.send("data is saved");
-})
 app.listen(5000, ()=>{
   console.log("Server listening on port 5000");
 });
