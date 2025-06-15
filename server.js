@@ -122,13 +122,10 @@
 //   }
 // })
 
-
 // const PORT = 3000;
 // app.listen(PORT, () => {
 //   console.log("Server is running on port", PORT);
 // });
-
-
 
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
@@ -138,7 +135,6 @@
 
 // var result = add(10,40);
 // console.log(result)
-
 
 // calback function
 
@@ -171,7 +167,7 @@
 // >>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>
 
 // create a server using express
-    
+
 // app.get('/chicken', (req, res)=>{
 //  res.send("sure sir, i would like to serve chicken ");
 // })
@@ -188,23 +184,37 @@
 //   res.send("data is saved");
 // })
 
-
-require ('./db');
-require ('./models/person');
-
-const espress = require('express');
+const espress = require("express");
 const app = espress();
 
-const bodyParser = require('body-parser');
-app.use(bodyParser.json());
+require("./db");
+require("./models/person");
 
-app.get('/', function(req, res){
+const bodyParser = require("body-parser"); //  . jab kabhi koi bhi client data bhejega to wo pta nhi kis form me hoga to hum isiliye body-parser ka use krenge data ko json ya kisi bhi formate me krne ke liye.
+const person = require("./models/person");
+app.use(bodyParser.json()); // req.body
+
+app.get("/", function (req, res) {
   res.send("Welcome to my hotel what i can help you");
-})
-
-app.listen(5000, ()=>{
-  console.log("Server listening on port 5000");
 });
 
+app.post("/person", async (req, res) => {
+  try {
+    const data = req.body; // assuming the request body contains the person data
 
+    // create a new person document usign the mongoose model
+    const newPerson = new person(data);
 
+    // save the new person to the database
+    const response = await newPerson.save();
+    console.log("data saved");
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server Error" });
+  }
+});
+
+app.listen(5000, () => {
+  console.log("Server listening on port 5000");
+});

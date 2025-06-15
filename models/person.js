@@ -35,3 +35,4 @@ const personSchema = new mongoose.Schema({
 // create a model using Schema 
 
 const person =  mongoose.model('person', personSchema);
+module.exports = person;
