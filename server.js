@@ -195,6 +195,9 @@ require ('./models/person');
 const espress = require('express');
 const app = espress();
 
+const bodyParser = require('body-parser');
+app.use(bodyParser.json());
+
 app.get('/', function(req, res){
   res.send("Welcome to my hotel what i can help you");
 })
