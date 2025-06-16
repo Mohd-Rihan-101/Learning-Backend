@@ -215,6 +215,21 @@ app.post("/person", async (req, res) => {
   }
 });
 
+// GET method to Get the person data 
+
+app.get('/person', async(req,res)=>{
+  try {
+    const data = await person.find();
+    console.log("data fetch successful");
+    res.status(200).json(data);
+
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server Error" });
+  }
+})
+
+
 app.listen(5000, () => {
   console.log("Server listening on port 5000");
 });
