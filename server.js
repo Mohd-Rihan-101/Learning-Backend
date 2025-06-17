@@ -189,6 +189,7 @@ const app = express();
 
 require("./db");
 require("./models/person");
+require("./models/MenuItem");
 
 const bodyParser = require("body-parser"); //  . jab kabhi koi bhi client data bhejega to wo pta nhi kis form me hoga to hum isiliye body-parser ka use krenge data ko json ya kisi bhi formate me krne ke liye.
 const person = require("./models/person");
