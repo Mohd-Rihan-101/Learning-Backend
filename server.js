@@ -184,8 +184,8 @@
 //   res.send("data is saved");
 // })
 
-const espress = require("express");
-const app = espress();
+const express = require("express");
+const app = express();
 
 require("./db");
 require("./models/person");
@@ -208,14 +208,14 @@ app.post("/person", async (req, res) => {
     // save the new person to the database
     const response = await newPerson.save();
     console.log("data saved");
-    res.status(200).json(response);
+    res.status(200).json(data);
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "internal server Error" });
   }
 });
 
-// GET method to Get the person data 
+// GET method to Get the person data
 
 app.get('/person', async(req,res)=>{
   try {
@@ -228,7 +228,6 @@ app.get('/person', async(req,res)=>{
     res.status(500).json({ error: "internal server Error" });
   }
 })
-
 
 app.listen(5000, () => {
   console.log("Server listening on port 5000");
