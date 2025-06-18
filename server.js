@@ -188,11 +188,12 @@ const express = require("express");
 const app = express();
 
 require("./db");
-require("./models/person");
-require("./models/MenuItem");
+// require("./models/person");
+// require("./models/MenuItem");
 
 const bodyParser = require("body-parser"); //  . jab kabhi koi bhi client data bhejega to wo pta nhi kis form me hoga to hum isiliye body-parser ka use krenge data ko json ya kisi bhi formate me krne ke liye.
 const person = require("./models/person");
+const MenuItem = require("./models/MenuItem");
 app.use(bodyParser.json()); // req.body
 
 app.get("/", function (req, res) {
@@ -218,17 +219,33 @@ app.post("/person", async (req, res) => {
 
 // GET method to Get the person data
 
-app.get('/person', async(req,res)=>{
+app.get("/person", async (req, res) => {
   try {
     const data = await person.find();
     console.log("data fetch successful");
     res.status(200).json(data);
-
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "internal server Error" });
   }
-})
+});
+
+// MenuItem api
+
+app.post("/menu", async (req, res) => {
+  try {
+    const data = req.body;
+    const newItem = new MenuItem(data);
+    const resp = await newItem.save();
+
+    console.log("data saved succesful");
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ massage: "internal server error" });
+  }
+});
+
 
 app.listen(5000, () => {
   console.log("Server listening on port 5000");
