@@ -247,6 +247,21 @@ app.post("/menu", async (req, res) => {
 });
 
 
+// create get api to get tha data
+
+app.get("/menu", async (req,res)=>{
+  try {
+    const data = await MenuItem.find();
+    console.log("dat fetching success!");
+    res.status(200).json(data);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ massage: "internal server error in get method" });
+  }
+  
+})
+
+
 app.listen(5000, () => {
   console.log("Server listening on port 5000");
 });
