@@ -252,13 +252,27 @@ app.post("/menu", async (req, res) => {
 app.get("/menu", async (req,res)=>{
   try {
     const data = await MenuItem.find();
-    console.log("dat fetching success!");
+    console.log("dat fetching successe!");
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
     res.status(500).json({ massage: "internal server error in get method" });
   }
   
+});
+
+app.get("/person/:workType",async (req,res)=>{
+  try {
+    const workType = req.params.workType; // Extract the work type from the URL parameter
+    if(workType == "manager" || workType == "chef" || workType == "waiter"){
+      const response = await person.find({work : workType});
+      console.log("data fetching done!");
+      res.status(200).json(response);
+    }
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({err : "invaid work type"});
+  }
 })
 
 
