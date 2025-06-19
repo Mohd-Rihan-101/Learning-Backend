@@ -186,95 +186,23 @@
 
 const express = require("express");
 const app = express();
-
 require("./db");
-// require("./models/person");
-// require("./models/MenuItem");
+
 
 const bodyParser = require("body-parser"); //  . jab kabhi koi bhi client data bhejega to wo pta nhi kis form me hoga to hum isiliye body-parser ka use krenge data ko json ya kisi bhi formate me krne ke liye.
-const person = require("./models/person");
-const MenuItem = require("./models/MenuItem");
 app.use(bodyParser.json()); // req.body
 
 app.get("/", function (req, res) {
   res.send("Welcome to my hotel what i can help you");
 });
 
-app.post("/person", async (req, res) => {
-  try {
-    const data = req.body; // assuming the request body contains the person data
+// import personRoutes and router file
+const personRoutes = require("./routes/personRoutes");
+const menuItemRoutes = require("./routes/menuItemRoutes");
 
-    // create a new person document usign the mongoose model
-    const newPerson = new person(data);
-
-    // save the new person to the database
-    const response = await newPerson.save();
-    console.log("data saved");
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "internal server Error" });
-  }
-});
-
-// GET method to Get the person data
-
-app.get("/person", async (req, res) => {
-  try {
-    const data = await person.find();
-    console.log("data fetch successful");
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ error: "internal server Error" });
-  }
-});
-
-// MenuItem api
-
-app.post("/menu", async (req, res) => {
-  try {
-    const data = req.body;
-    const newItem = new MenuItem(data);
-    const resp = await newItem.save();
-
-    console.log("data saved succesful");
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ massage: "internal server error" });
-  }
-});
-
-
-// create get api to get tha data
-
-app.get("/menu", async (req,res)=>{
-  try {
-    const data = await MenuItem.find();
-    console.log("dat fetching successe!");
-    res.status(200).json(data);
-  } catch (error) {
-    console.log(error);
-    res.status(500).json({ massage: "internal server error in get method" });
-  }
-  
-});
-
-app.get("/person/:workType",async (req,res)=>{
-  try {
-    const workType = req.params.workType; // Extract the work type from the URL parameter
-    if(workType == "manager" || workType == "chef" || workType == "waiter"){
-      const response = await person.find({work : workType});
-      console.log("data fetching done!");
-      res.status(200).json(response);
-    }
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({err : "invaid work type"});
-  }
-})
-
+// use the routers
+app.use("/pers", personRoutes);
+app.use("/menu", menuItemRoutes);
 
 app.listen(5000, () => {
   console.log("Server listening on port 5000");
