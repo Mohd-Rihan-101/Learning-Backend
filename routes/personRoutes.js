@@ -1,8 +1,6 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
-
 const person = require("../models/person");
-
 
 router.post("/", async (req, res) => {
   try {
@@ -32,17 +30,17 @@ router.get("/", async (req, res) => {
   }
 });
 
-router.get("/:workType",async (req,res)=>{
+router.get("/:workType", async (req, res) => {
   try {
     const workType = req.params.workType; // Extract the work type from the URL parameter
-    if(workType == "manager" || workType == "chef" || workType == "waiter"){
-      const response = await person.find({work : workType});
+    if (workType == "manager" || workType == "chef" || workType == "waiter") {
+      const response = await person.find({ work: workType });
       console.log("data fetching done!");
       res.status(200).json(response);
     }
   } catch (err) {
     console.log(err);
-    res.status(500).json({err : "invaid work type"});
+    res.status(500).json({ err: "invaid work type" });
   }
 });
 

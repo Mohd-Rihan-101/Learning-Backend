@@ -1,7 +1,8 @@
 const express = require("express");
 const router = express.Router();
 
-const MenuItem = require('./../models/MenuItem');
+const MenuItem = require("./../models/MenuItem");
+const { route } = require("./personRoutes");
 
 // MenuItem api
 router.post("/", async (req, res) => {
@@ -18,17 +19,30 @@ router.post("/", async (req, res) => {
   }
 });
 
-
 // create get api to get tha data
 
 router.get("/", async (req, res) => {
   try {
     const data = await MenuItem.find();
-    console.log("dat fetching successe!");
+    console.log("data fetching successe!");
     res.status(200).json(data);
   } catch (error) {
     console.log(error);
     res.status(500).json({ massage: "internal server error in get method" });
+  }
+});
+
+// taste type
+router.get("/:tasteType", async (req, res) => {
+  try {
+    const tasteType = req.params.tasteType;
+    if (tasteType == "sweet" || tasteType == "spicy" || tasteType == "sout") {
+      const response = await MenuItem.find({ taste: tasteType });
+      console.log("data fetching successful?");
+      res.status(200).json(response);
+    }
+  } catch (error) {
+    res.status(500).json({ error: "Internal server error" });
   }
 });
 
