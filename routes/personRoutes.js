@@ -45,31 +45,26 @@ router.get("/:workType", async (req, res) => {
 });
 
 // create PUT to Update data
-
-router.put("/:id", async (req, res) => {
+router.put("/:id", async(req,res)=>{
   try {
-    const personId = req.params.id; // Extract the id from the URL parameter
-    const updatePersonData = req.body; // Extract data
+     const personId = req.params.id;
+     const personUpdateData = req.body;
 
-    const response = await person.findByIdAndUpdate(
-      personId,
-      updatePersonData,
-      {
-        new: true, //return the update document
-        runValidators: true, // Run mongoose validation
-      }
-    );
+     const response = await person.findByIdAndUpdate(personId, personUpdateData, {
+      new : true,  // Return the update document
+      runValidators : true  // Run mongoose validation
+     });
 
-    if (!response) {
-      return res.status(500).json({ error: "Person not found" });
-    }
+     if(!response){
+      return res.status(400).json({err : "person NOT Found"});
+     }
 
-    console.log("Data Update Succesful!");
-    res.status(200).json(response);
-  } catch (err) {
-    console.log(err);
-    res.status(500).json({ err: "invaid work type" });
+     console.log("data Update Successful");
+     res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({error : "Internal server error"});
   }
-});
+})
 
 module.exports = router;
