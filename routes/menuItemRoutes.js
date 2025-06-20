@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const MenuItem = require("./../models/MenuItem");
-const { route } = require("./personRoutes");
+// const { route } = require("./personRoutes");
 
 // MenuItem api
 router.post("/", async (req, res) => {

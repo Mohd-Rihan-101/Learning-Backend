@@ -44,4 +44,32 @@ router.get("/:workType", async (req, res) => {
   }
 });
 
+// create PUT to Update data
+
+router.put("/:id", async (req, res) => {
+  try {
+    const personId = req.params.id; // Extract the id from the URL parameter
+    const updatePersonData = req.body; // Extract data
+
+    const response = await person.findByIdAndUpdate(
+      personId,
+      updatePersonData,
+      {
+        new: true, //return the update document
+        runValidators: true, // Run mongoose validation
+      }
+    );
+
+    if (!response) {
+      return res.status(500).json({ error: "Person not found" });
+    }
+
+    console.log("Data Update Succesful!");
+    res.status(200).json(response);
+  } catch (err) {
+    console.log(err);
+    res.status(500).json({ err: "invaid work type" });
+  }
+});
+
 module.exports = router;
