@@ -46,6 +46,7 @@ router.get("/:tasteType", async (req, res) => {
   }
 });
 
+// create PUT method to Update data
 router.put("/:id", async (req, res) => {
   try {
     const menuId = req.params.id;
@@ -64,6 +65,25 @@ router.put("/:id", async (req, res) => {
   } catch (error) {
     console.log(error);
     res.status(500).json({ error: "Internal server error" });
+  }
+});
+
+// create DELETE method to delete data
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const menuId = req.params.id;
+    const response = await MenuItem.findByIdAndDelete(menuId);
+
+    if (!response) {
+      return res.status(400).json({ err: "item Not Found" });
+    }
+
+    console.log("Data Deleted");
+    res.status(200).json({ massage: "Data Deleted Succesfully#" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal Server Error" });
   }
 });
 
