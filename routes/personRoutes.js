@@ -45,26 +45,49 @@ router.get("/:workType", async (req, res) => {
 });
 
 // create PUT to Update data
-router.put("/:id", async(req,res)=>{
+router.put("/:id", async (req, res) => {
   try {
-     const personId = req.params.id;
-     const personUpdateData = req.body;
+    const personId = req.params.id;
+    const personUpdateData = req.body;
 
-     const response = await person.findByIdAndUpdate(personId, personUpdateData, {
-      new : true,  // Return the update document
-      runValidators : true  // Run mongoose validation
-     });
+    const response = await person.findByIdAndUpdate(
+      personId,
+      personUpdateData,
+      {
+        new: true, // Return the update document
+        runValidators: true, // Run mongoose validation
+      }
+    );
 
-     if(!response){
-      return res.status(400).json({err : "person NOT Found"});
-     }
+    if (!response) {
+      return res.status(400).json({ error: "person NOT Found" });
+    }
 
-     console.log("data Update Successful");
-     res.status(200).json(response);
+    console.log("data Update Successful");
+    res.status(200).json(response);
   } catch (error) {
     console.log(error);
-    res.status(500).json({error : "Internal server error"});
+    res.status(500).json({ error: "Internal server error" });
   }
-})
+});
+
+// create DELETE method to delete data
+
+router.delete("/:id", async (req, res) => {
+  try {
+    const personId = req.params.id;
+    const response = await person.findByIdAndDelete(personId);
+
+    if (!response) {
+      return res.status(400).json({ error: "person not found" });
+    }
+
+    console.log("data Deleted");
+    res.status(200).json({ mssage: "data delete succesfully!" });
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "internal server error" });
+  }
+});
 
 module.exports = router;
