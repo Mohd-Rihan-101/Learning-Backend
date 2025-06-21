@@ -46,4 +46,25 @@ router.get("/:tasteType", async (req, res) => {
   }
 });
 
+router.put("/:id", async (req, res) => {
+  try {
+    const menuId = req.params.id;
+    const menuUpdateData = req.body;
+
+    const response = await MenuItem.findByIdAndUpdate(menuId, menuUpdateData, {
+      new: true,
+      runValidators: true,
+    });
+
+    if (!response) {
+      return res.status(400).json({ err: "item not found" });
+    }
+    console.log("Data Updated");
+    res.status(200).json(response);
+  } catch (error) {
+    console.log(error);
+    res.status(500).json({ error: "Internal server error" });
+  }
+});
+
 module.exports = router;
