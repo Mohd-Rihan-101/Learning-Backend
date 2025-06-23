@@ -187,19 +187,23 @@
 const express = require("express");
 const app = express();
 require("./db");
-
+const passport = require("./auth");
 
 const bodyParser = require("body-parser"); //  . jab kabhi koi bhi client data bhejega to wo pta nhi kis form me hoga to hum isiliye body-parser ka use krenge data ko json ya kisi bhi formate me krne ke liye.
 app.use(bodyParser.json()); // req.body
 
+
+// middleware function bnana padhta hai 
 const logRequest = (req,res,next)=>{
   console.log(`[${new Date().toLocaleString()}] Request made to : ${req.originalUrl} `);
   next();  // Move on the next Phase
 }
-
 app.use(logRequest);
 
 
+// sabse pehle Authenticate krne ke liye sabse pehle hum
+app.use(passport.initialize());
+const localAuthMiddleware = passport.authenticate('local', {session: false});
 app.get("/", function (req, res) {
   res.send("Welcome to my hotel what i can help you");
 });
@@ -209,7 +213,7 @@ const personRoutes = require("./routes/personRoutes");
 const menuItemRoutes = require("./routes/menuItemRoutes");
 
 // use the routers
-app.use("/person", personRoutes);
+app.use("/person",localAuthMiddleware, personRoutes);
 app.use("/menu", menuItemRoutes);
 
 app.listen(5000, () => {
