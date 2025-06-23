@@ -192,6 +192,14 @@ require("./db");
 const bodyParser = require("body-parser"); //  . jab kabhi koi bhi client data bhejega to wo pta nhi kis form me hoga to hum isiliye body-parser ka use krenge data ko json ya kisi bhi formate me krne ke liye.
 app.use(bodyParser.json()); // req.body
 
+const logRequest = (req,res,next)=>{
+  console.log(`[${new Date().toLocaleString()}] Request made to : ${req.originalUrl} `);
+  next();  // Move on the next Phase
+}
+
+app.use(logRequest);
+
+
 app.get("/", function (req, res) {
   res.send("Welcome to my hotel what i can help you");
 });
