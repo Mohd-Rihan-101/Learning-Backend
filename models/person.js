@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const bcrpt = require('bcrypt');
+const bcrpt = require("bcrypt");
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -41,7 +41,6 @@ const personSchema = new mongoose.Schema({
   },
 });
 
-
 // for hash the password
 personSchema.pre("save", async function (next) {
   const person = this;
@@ -51,7 +50,7 @@ personSchema.pre("save", async function (next) {
 
   try {
     // hash password generate
-    const salt = await bcrpt.gensalt(10);
+    const salt = await bcrpt.genSalt(10);
 
     // hash password
     const hashpassword = await bcrpt.hash(person.password, salt);
@@ -62,7 +61,18 @@ personSchema.pre("save", async function (next) {
   }
 });
 
+// create function for match the password
 
+personSchema.methods.comparePassword = async function (candidatePassword) {
+  try {
+    // Use bcrypt to compare the provided password with the hash password
+    const isMatch = await bcrpt.compare(candidatePassword, this.password);
+    return isMatch;
+
+  } catch (error) {
+    throw error;
+  }
+};
 
 // create a model using Schema
 
