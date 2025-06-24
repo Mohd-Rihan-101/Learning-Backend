@@ -1,4 +1,5 @@
 const mongoose = require("mongoose");
+const bcrpt = require('bcrypt');
 
 const personSchema = new mongoose.Schema({
   name: {
@@ -30,17 +31,40 @@ const personSchema = new mongoose.Schema({
     type: Number,
     required: true,
   },
-  username : {
-    type : String,
-    required : true
+  username: {
+    type: String,
+    required: true,
   },
-  password : {
-    type : String,
-    required : true
+  password: {
+    type: String,
+    required: true,
+  },
+});
+
+
+// for hash the password
+personSchema.pre("save", async function (next) {
+  const person = this;
+
+  // hash the password  only if it has been modified (or is new)
+  if (!person.isModified("password")) return next();
+
+  try {
+    // hash password generate
+    const salt = await bcrpt.gensalt(10);
+
+    // hash password
+    const hashpassword = await bcrpt.hash(person.password, salt);
+    person.password = hashpassword;
+    next();
+  } catch (error) {
+    return next(error);
   }
 });
 
-// create a model using Schema 
 
-const person =  mongoose.model('person', personSchema);
+
+// create a model using Schema
+
+const person = mongoose.model("person", personSchema);
 module.exports = person;

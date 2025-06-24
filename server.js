@@ -204,6 +204,7 @@ app.use(logRequest);
 // sabse pehle Authenticate krne ke liye sabse pehle hum
 app.use(passport.initialize());
 const localAuthMiddleware = passport.authenticate('local', {session: false});
+
 app.get("/", function (req, res) {
   res.send("Welcome to my hotel what i can help you");
 });
